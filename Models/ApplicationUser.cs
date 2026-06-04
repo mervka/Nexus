@@ -21,4 +21,10 @@ public class ApplicationUser : IdentityUser
     public string? LinkedInUrl { get; set; }
 
     public bool IsOpenToCollaboration { get; set; }
+    
+    public ICollection<Project> OwnedProjects { get; set; } = new List<Project>();
+
+    public ICollection<ProjectApplication> Applications { get; set; } = new List<ProjectApplication>();
+
+    public ICollection<ProjectMember> ProjectMemberships { get; set; } = new List<ProjectMember>();
 }
