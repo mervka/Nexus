@@ -1,0 +1,51 @@
+@model List<Nexus.ViewModels.ProjectListItemViewModel>
+
+@{
+    ViewData["Title"] = "Explore Projects";
+}
+
+<h1>Explore Projects</h1>
+
+<p class="text-muted">
+    Discover active project ideas and apply to contribute.
+</p>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        There are no active projects yet.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var project in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@project.Title</h5>
+
+                        <p class="card-text">@project.ShortDescription</p>
+
+                        <p class="mb-1">
+                            <strong>Category:</strong> @project.Category
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Stage:</strong> @project.Stage
+                        </p>
+
+                        <p class="mb-3">
+                            <strong>Status:</strong> @(project.IsActive ? "Active" : "Inactive")
+                        </p>
+
+                        <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-outline-primary">
+                            View Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
