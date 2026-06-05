@@ -1,0 +1,47 @@
+@model Nexus.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>My Profile</h1>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h3>@Model.FullName</h3>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
+        {
+            <p class="text-muted">@Model.ProfessionalTitle</p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        {
+            <p>@Model.Bio</p>
+        }
+
+        <hr />
+
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Skills:</strong> @Model.Skills</p>
+        <p><strong>Experience Level:</strong> @Model.ExperienceLevel</p>
+        <p><strong>Open to Collaboration:</strong> @(Model.IsOpenToCollaboration ? "Yes" : "No")</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.PortfolioUrl))
+        {
+            <p><strong>Portfolio:</strong> <a href="@Model.PortfolioUrl" target="_blank">@Model.PortfolioUrl</a></p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.GitHubUrl))
+        {
+            <p><strong>GitHub:</strong> <a href="@Model.GitHubUrl" target="_blank">@Model.GitHubUrl</a></p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.LinkedInUrl))
+        {
+            <p><strong>LinkedIn:</strong> <a href="@Model.LinkedInUrl" target="_blank">@Model.LinkedInUrl</a></p>
+        }
+
+        <a asp-action="Edit" class="btn btn-primary mt-3">Edit Profile</a>
+    </div>
+</div>

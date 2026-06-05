@@ -1,0 +1,71 @@
+@model Nexus.ViewModels.ProfileEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<h1>Edit Profile</h1>
+
+<form asp-action="Edit" method="post" class="mt-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProfessionalTitle" class="form-label"></label>
+        <input asp-for="ProfessionalTitle" class="form-control" />
+        <span asp-validation-for="ProfessionalTitle" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Bio" class="form-label"></label>
+        <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Skills" class="form-label"></label>
+        <input asp-for="Skills" class="form-control" />
+        <span asp-validation-for="Skills" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ExperienceLevel" class="form-label"></label>
+        <input asp-for="ExperienceLevel" class="form-control" />
+        <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PortfolioUrl" class="form-label"></label>
+        <input asp-for="PortfolioUrl" class="form-control" />
+        <span asp-validation-for="PortfolioUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GitHubUrl" class="form-label"></label>
+        <input asp-for="GitHubUrl" class="form-control" />
+        <span asp-validation-for="GitHubUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LinkedInUrl" class="form-label"></label>
+        <input asp-for="LinkedInUrl" class="form-control" />
+        <span asp-validation-for="LinkedInUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsOpenToCollaboration" class="form-check-input" />
+        <label asp-for="IsOpenToCollaboration" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
