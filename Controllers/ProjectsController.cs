@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nexus.Data;
 using Nexus.Models;
 using Nexus.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Nexus.Controllers;
 
@@ -19,9 +20,53 @@ public class ProjectsController : Controller
         _userManager = userManager;
     }
     
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return Content("Projects page will be created later.");
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var ownedProjects = await _context.Projects
+            .Where(p => p.FounderId == currentUser.Id)
+            .Select(p => new ProjectListItemViewModel
+            {
+                Id = p.Id,
+                Title = p.Title,
+                ShortDescription = p.ShortDescription,
+                Category = p.Category,
+                Stage = p.Stage,
+                RoleInProject = "Founder",
+                IsActive = p.IsActive,
+                CreatedAt = p.CreatedAt
+            })
+            .ToListAsync();
+
+        var joinedProjects = await _context.ProjectMembers
+            .Where(pm => pm.UserId == currentUser.Id)
+            .Select(pm => new ProjectListItemViewModel
+            {
+                Id = pm.Project.Id,
+                Title = pm.Project.Title,
+                ShortDescription = pm.Project.ShortDescription,
+                Category = pm.Project.Category,
+                Stage = pm.Project.Stage,
+                RoleInProject = pm.RoleInProject,
+                IsActive = pm.Project.IsActive,
+                CreatedAt = pm.Project.CreatedAt
+            })
+            .ToListAsync();
+
+        var allProjects = ownedProjects
+            .Concat(joinedProjects)
+            .GroupBy(p => p.Id)
+            .Select(g => g.First())
+            .OrderByDescending(p => p.CreatedAt)
+            .ToList();
+
+        return View(allProjects);
     }
 
     public IActionResult Create()
@@ -67,8 +112,45 @@ public class ProjectsController : Controller
         return RedirectToAction(nameof(Details), new { id = project.Id });
     }
 
-    public IActionResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
-        return Content($"Project details page will be created later. Project id: {id}");
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var project = await _context.Projects
+            .Include(p => p.Founder)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (project == null)
+        {
+            return NotFound();
+        }
+
+        string? userRole = null;
+
+        if (project.FounderId == currentUser.Id)
+        {
+            userRole = "Founder";
+        }
+        else
+        {
+            userRole = await _context.ProjectMembers
+                .Where(pm => pm.ProjectId == project.Id && pm.UserId == currentUser.Id)
+                .Select(pm => pm.RoleInProject)
+                .FirstOrDefaultAsync();
+        }
+
+        if (userRole == null)
+        {
+            return Forbid();
+        }
+
+        ViewBag.UserRole = userRole;
+
+        return View(project);
     }
 }
