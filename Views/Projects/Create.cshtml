@@ -1,0 +1,76 @@
+@model Nexus.ViewModels.ProjectCreateViewModel
+
+@{
+    ViewData["Title"] = "Share an Idea";
+}
+
+<h1>Share an Idea</h1>
+
+<p class="text-muted">
+    Describe your project idea clearly so that potential contributors can understand your vision.
+</p>
+
+<form asp-action="Create" method="post" class="mt-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ShortDescription" class="form-label"></label>
+        <input asp-for="ShortDescription" class="form-control" />
+        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProblemStatement" class="form-label"></label>
+        <textarea asp-for="ProblemStatement" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="ProblemStatement" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TargetAudience" class="form-label"></label>
+        <input asp-for="TargetAudience" class="form-control" />
+        <span asp-validation-for="TargetAudience" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Category" class="form-label"></label>
+        <input asp-for="Category" class="form-control" placeholder="Education, Health, AI, Finance..." />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Stage" class="form-label"></label>
+        <input asp-for="Stage" class="form-control" placeholder="Idea, Prototype, MVP..." />
+        <span asp-validation-for="Stage" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NeededRoles" class="form-label"></label>
+        <input asp-for="NeededRoles" class="form-control" placeholder="Developer, Designer, Marketer..." />
+        <span asp-validation-for="NeededRoles" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CollaborationType" class="form-label"></label>
+        <input asp-for="CollaborationType" class="form-control" placeholder="Remote, Hybrid, Volunteer..." />
+        <span asp-validation-for="CollaborationType" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Project</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
