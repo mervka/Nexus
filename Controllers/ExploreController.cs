@@ -49,8 +49,17 @@ public class ExploreController : Controller
         return View(projects);
     }
 
-    public IActionResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
-        return Content($"Explore project details page will be created later. Project id: {id}");
+        var project = await _context.Projects
+            .Include(p => p.Founder)
+            .FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
+
+        if (project == null)
+        {
+            return NotFound();
+        }
+
+        return View(project);
     }
 }

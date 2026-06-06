@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Nexus.Data;
 using Nexus.Models;
+using Nexus.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,4 +45,5 @@ app.MapControllerRoute(
 app.MapRazorPages()
    .WithStaticAssets();
 
+await SeedData.InitializeAsync(app.Services);
 app.Run();
