@@ -71,6 +71,13 @@ else
                                         <strong>Joined:</strong>
                                         @member.JoinedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
                                     </p>
+                                    
+                                    <a asp-controller="Profile"
+                                       asp-action="Details"
+                                       asp-route-id="@member.UserId"
+                                       class="btn btn-outline-primary mt-3">
+                                        View Profile
+                                    </a>
                                 </div>
                             </div>
                         }

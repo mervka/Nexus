@@ -27,6 +27,23 @@ public class ProfileController : Controller
 
         return View(currentUser);
     }
+    
+    public async Task<IActionResult> Details(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return NotFound();
+        }
+
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return View(user);
+    }
 
     public async Task<IActionResult> Edit()
     {

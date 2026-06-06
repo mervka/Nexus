@@ -1,0 +1,67 @@
+@model Nexus.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Profile Details";
+}
+
+<h1>@Model.FullName</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
+{
+    <p class="text-muted">@Model.ProfessionalTitle</p>
+}
+
+<div class="card mt-4">
+    <div class="card-body">
+        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        {
+            <p>@Model.Bio</p>
+            <hr />
+        }
+
+        <p><strong>Email:</strong> @Model.Email</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Skills))
+        {
+            <p><strong>Skills:</strong> @Model.Skills</p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.ExperienceLevel))
+        {
+            <p><strong>Experience Level:</strong> @Model.ExperienceLevel</p>
+        }
+
+        <p>
+            <strong>Open to Collaboration:</strong>
+            @(Model.IsOpenToCollaboration ? "Yes" : "No")
+        </p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.PortfolioUrl))
+        {
+            <p>
+                <strong>Portfolio:</strong>
+                <a href="@Model.PortfolioUrl" target="_blank">@Model.PortfolioUrl</a>
+            </p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.GitHubUrl))
+        {
+            <p>
+                <strong>GitHub:</strong>
+                <a href="@Model.GitHubUrl" target="_blank">@Model.GitHubUrl</a>
+            </p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.LinkedInUrl))
+        {
+            <p>
+                <strong>LinkedIn:</strong>
+                <a href="@Model.LinkedInUrl" target="_blank">@Model.LinkedInUrl</a>
+            </p>
+        }
+    </div>
+</div>
+
+<a asp-controller="Teams" asp-action="Index" class="btn btn-secondary mt-3">
+    Back to Teams
+</a>
