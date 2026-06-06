@@ -154,6 +154,91 @@ public class ProjectsController : Controller
         return View(project);
     }
     
+    public async Task<IActionResult> Edit(int id)
+{
+    var currentUser = await _userManager.GetUserAsync(User);
+
+    if (currentUser == null)
+    {
+        return Unauthorized();
+    }
+
+    var project = await _context.Projects
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (project == null)
+    {
+        return NotFound();
+    }
+
+    if (project.FounderId != currentUser.Id)
+    {
+        return Forbid();
+    }
+
+    var viewModel = new ProjectEditViewModel
+    {
+        Id = project.Id,
+        Title = project.Title,
+        ShortDescription = project.ShortDescription,
+        Description = project.Description,
+        ProblemStatement = project.ProblemStatement,
+        TargetAudience = project.TargetAudience,
+        Category = project.Category,
+        Stage = project.Stage,
+        NeededRoles = project.NeededRoles,
+        CollaborationType = project.CollaborationType,
+        IsActive = project.IsActive
+    };
+
+    return View(viewModel);
+}
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(ProjectEditViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(viewModel);
+        }
+
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var project = await _context.Projects
+            .FirstOrDefaultAsync(p => p.Id == viewModel.Id);
+
+        if (project == null)
+        {
+            return NotFound();
+        }
+
+        if (project.FounderId != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        project.Title = viewModel.Title;
+        project.ShortDescription = viewModel.ShortDescription;
+        project.Description = viewModel.Description;
+        project.ProblemStatement = viewModel.ProblemStatement;
+        project.TargetAudience = viewModel.TargetAudience;
+        project.Category = viewModel.Category;
+        project.Stage = viewModel.Stage;
+        project.NeededRoles = viewModel.NeededRoles;
+        project.CollaborationType = viewModel.CollaborationType;
+        project.IsActive = viewModel.IsActive;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Details), new { id = project.Id });
+    }
+    
     public async Task<IActionResult> Applications(int id)
     {
         var currentUser = await _userManager.GetUserAsync(User);
