@@ -204,4 +204,94 @@ public class ProjectsController : Controller
 
         return View(viewModel);
     }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AcceptApplication(int id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var application = await _context.ProjectApplications
+            .Include(a => a.Project)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (application == null)
+        {
+            return NotFound();
+        }
+
+        if (application.Project.FounderId != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        if (application.Status != "Pending")
+        {
+            return RedirectToAction(nameof(Applications), new { id = application.ProjectId });
+        }
+
+        var alreadyMember = await _context.ProjectMembers
+            .AnyAsync(pm => pm.ProjectId == application.ProjectId && pm.UserId == application.ApplicantId);
+
+        if (!alreadyMember)
+        {
+            var projectMember = new ProjectMember
+            {
+                ProjectId = application.ProjectId,
+                UserId = application.ApplicantId,
+                RoleInProject = application.DesiredRole,
+                JoinedAt = DateTime.UtcNow
+            };
+
+            _context.ProjectMembers.Add(projectMember);
+        }
+
+        application.Status = "Accepted";
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Applications), new { id = application.ProjectId });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RejectApplication(int id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var application = await _context.ProjectApplications
+            .Include(a => a.Project)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (application == null)
+        {
+            return NotFound();
+        }
+
+        if (application.Project.FounderId != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        if (application.Status != "Pending")
+        {
+            return RedirectToAction(nameof(Applications), new { id = application.ProjectId });
+        }
+
+        application.Status = "Rejected";
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Applications), new { id = application.ProjectId });
+    }
 }
