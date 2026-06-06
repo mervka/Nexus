@@ -1,0 +1,36 @@
+@model Nexus.Models.Project
+
+@{
+    ViewData["Title"] = "Delete Project";
+}
+
+<h1>Delete Project</h1>
+
+<div class="alert alert-danger mt-4">
+    Are you sure you want to delete this project? This action cannot be undone.
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <h4>@Model.Title</h4>
+
+        <p class="text-muted">@Model.ShortDescription</p>
+
+        <p><strong>Category:</strong> @Model.Category</p>
+        <p><strong>Stage:</strong> @Model.Stage</p>
+        <p><strong>Status:</strong> @(Model.IsActive ? "Active" : "Inactive")</p>
+        <p><strong>Founder:</strong> @Model.Founder.FullName</p>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post" class="mt-4">
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-danger">
+        Confirm Delete
+    </button>
+
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>

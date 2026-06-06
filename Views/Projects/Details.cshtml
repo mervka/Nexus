@@ -43,6 +43,10 @@
     <a asp-action="Applications" asp-route-id="@Model.Id" class="btn btn-primary mt-3">
         View Applications
     </a>
+
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mt-3">
+        Delete Project
+    </a>
 }
 
 <a asp-action="Index" class="btn btn-secondary mt-3">Back to Projects</a>
