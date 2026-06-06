@@ -36,6 +36,10 @@
 
 @if (ViewBag.UserRole == "Founder")
 {
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning mt-3">
+        Edit Project
+    </a>
+
     <a asp-action="Applications" asp-route-id="@Model.Id" class="btn btn-primary mt-3">
         View Applications
     </a>
