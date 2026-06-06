@@ -1,0 +1,82 @@
+@model List<Nexus.ViewModels.TeamsIndexProjectViewModel>
+
+@{
+    ViewData["Title"] = "Teams";
+}
+
+<h1>Teams</h1>
+
+<p class="text-muted">
+    View the teams of the projects you founded or joined as an accepted member.
+</p>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You are not part of any team yet.
+    </div>
+}
+else
+{
+    @foreach (var project in Model)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0">@project.ProjectTitle</h4>
+                <small>Your role: @project.CurrentUserRole</small>
+            </div>
+
+            <div class="card-body">
+                @if (!project.Members.Any())
+                {
+                    <p class="text-muted mb-0">
+                        No accepted team members yet.
+                    </p>
+                }
+                else
+                {
+                    <div class="row">
+                        @foreach (var member in project.Members)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="border rounded p-3 h-100">
+                                    <h5>@member.FullName</h5>
+
+                                    @if (!string.IsNullOrWhiteSpace(member.ProfessionalTitle))
+                                    {
+                                        <p class="text-muted mb-1">@member.ProfessionalTitle</p>
+                                    }
+
+                                    <p class="mb-1">
+                                        <strong>Role:</strong> @member.RoleInProject
+                                    </p>
+
+                                    <p class="mb-1">
+                                        <strong>Email:</strong> @member.Email
+                                    </p>
+
+                                    @if (!string.IsNullOrWhiteSpace(member.Skills))
+                                    {
+                                        <p class="mb-1">
+                                            <strong>Skills:</strong> @member.Skills
+                                        </p>
+                                    }
+
+                                    <p class="mb-1">
+                                        <strong>Open to Collaboration:</strong>
+                                        @(member.IsOpenToCollaboration ? "Yes" : "No")
+                                    </p>
+
+                                    <p class="mb-0">
+                                        <strong>Joined:</strong>
+                                        @member.JoinedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}

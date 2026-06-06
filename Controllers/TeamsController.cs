@@ -31,6 +31,7 @@ public class TeamsController : Controller
 
         var foundedProjects = await _context.Projects
             .Where(p => p.FounderId == currentUser.Id)
+            .Include(p => p.Founder)
             .Include(p => p.Members)
                 .ThenInclude(pm => pm.User)
             .ToListAsync();
@@ -38,8 +39,10 @@ public class TeamsController : Controller
         var joinedProjects = await _context.ProjectMembers
             .Where(pm => pm.UserId == currentUser.Id)
             .Include(pm => pm.Project)
-                .ThenInclude(p => p.Members)
-                    .ThenInclude(member => member.User)
+            .ThenInclude(p => p.Founder)
+            .Include(pm => pm.Project)
+            .ThenInclude(p => p.Members)
+            .ThenInclude(member => member.User)
             .Select(pm => pm.Project)
             .ToListAsync();
 
@@ -58,18 +61,32 @@ public class TeamsController : Controller
                     .Select(m => m.RoleInProject)
                     .FirstOrDefault() ?? "Member";
 
-            var members = project.Members
-                .Select(member => new TeamMemberViewModel
+            var members = new List<TeamMemberViewModel>
+            {
+                new TeamMemberViewModel
                 {
-                    FullName = member.User.FullName,
-                    Email = member.User.Email ?? string.Empty,
-                    RoleInProject = member.RoleInProject,
-                    ProfessionalTitle = member.User.ProfessionalTitle,
-                    Skills = member.User.Skills,
-                    IsOpenToCollaboration = member.User.IsOpenToCollaboration,
-                    JoinedAt = member.JoinedAt
-                })
-                .ToList();
+                    UserId = project.Founder.Id,
+                    FullName = project.Founder.FullName,
+                    Email = project.Founder.Email ?? string.Empty,
+                    RoleInProject = "Founder",
+                    ProfessionalTitle = project.Founder.ProfessionalTitle,
+                    Skills = project.Founder.Skills,
+                    IsOpenToCollaboration = project.Founder.IsOpenToCollaboration,
+                    JoinedAt = project.CreatedAt
+                }
+            };
+
+            members.AddRange(project.Members.Select(member => new TeamMemberViewModel
+            {
+                UserId = member.User.Id,
+                FullName = member.User.FullName,
+                Email = member.User.Email ?? string.Empty,
+                RoleInProject = member.RoleInProject,
+                ProfessionalTitle = member.User.ProfessionalTitle,
+                Skills = member.User.Skills,
+                IsOpenToCollaboration = member.User.IsOpenToCollaboration,
+                JoinedAt = member.JoinedAt
+            }));
 
             return new TeamsIndexProjectViewModel
             {
