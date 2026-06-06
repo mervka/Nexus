@@ -239,6 +239,62 @@ public class ProjectsController : Controller
         return RedirectToAction(nameof(Details), new { id = project.Id });
     }
     
+    public async Task<IActionResult> Delete(int id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var project = await _context.Projects
+            .Include(p => p.Founder)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (project == null)
+        {
+            return NotFound();
+        }
+
+        if (project.FounderId != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        return View(project);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var project = await _context.Projects
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (project == null)
+        {
+            return NotFound();
+        }
+
+        if (project.FounderId != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        _context.Projects.Remove(project);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+    
     public async Task<IActionResult> Applications(int id)
     {
         var currentUser = await _userManager.GetUserAsync(User);
