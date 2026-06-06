@@ -153,4 +153,55 @@ public class ProjectsController : Controller
 
         return View(project);
     }
+    
+    public async Task<IActionResult> Applications(int id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var project = await _context.Projects
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (project == null)
+        {
+            return NotFound();
+        }
+
+        if (project.FounderId != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        var applications = await _context.ProjectApplications
+            .Include(a => a.Applicant)
+            .Where(a => a.ProjectId == id)
+            .OrderByDescending(a => a.AppliedAt)
+            .Select(a => new ProjectApplicationListItemViewModel
+            {
+                Id = a.Id,
+                ApplicantName = a.Applicant.FullName,
+                ApplicantEmail = a.Applicant.Email ?? string.Empty,
+                DesiredRole = a.DesiredRole,
+                MotivationMessage = a.MotivationMessage,
+                RelevantSkills = a.RelevantSkills,
+                ContributionPlan = a.ContributionPlan,
+                Availability = a.Availability,
+                Status = a.Status,
+                AppliedAt = a.AppliedAt
+            })
+            .ToListAsync();
+
+        var viewModel = new ProjectApplicationsViewModel
+        {
+            ProjectId = project.Id,
+            ProjectTitle = project.Title,
+            Applications = applications
+        };
+
+        return View(viewModel);
+    }
 }
