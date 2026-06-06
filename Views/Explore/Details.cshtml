@@ -31,6 +31,10 @@
         <p><strong>Founder Title:</strong> @Model.Founder.ProfessionalTitle</p>
 
         <div class="mt-4">
+            <a asp-controller="Explore" asp-action="Apply" asp-route-id="@Model.Id" class="btn btn-primary">
+                Apply to Project
+            </a>
+
             <a asp-controller="Explore" asp-action="Index" class="btn btn-secondary">
                 Back to Explore
             </a>

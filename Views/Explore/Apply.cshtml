@@ -1,0 +1,58 @@
+@model Nexus.ViewModels.ProjectApplicationCreateViewModel
+
+@{
+    ViewData["Title"] = "Apply to Project";
+}
+
+<h1>Apply to Project</h1>
+
+<p class="text-muted">
+    You are applying to: <strong>@Model.ProjectTitle</strong>
+</p>
+
+<form asp-action="Apply" method="post" class="mt-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="ProjectId" />
+    <input type="hidden" asp-for="ProjectTitle" />
+
+    <div class="mb-3">
+        <label asp-for="DesiredRole" class="form-label"></label>
+        <input asp-for="DesiredRole" class="form-control" placeholder="Frontend Developer, UI Designer, Researcher..." />
+        <span asp-validation-for="DesiredRole" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MotivationMessage" class="form-label"></label>
+        <textarea asp-for="MotivationMessage" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="MotivationMessage" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="RelevantSkills" class="form-label"></label>
+        <textarea asp-for="RelevantSkills" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="RelevantSkills" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ContributionPlan" class="form-label"></label>
+        <textarea asp-for="ContributionPlan" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="ContributionPlan" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Availability" class="form-label"></label>
+        <input asp-for="Availability" class="form-control" placeholder="5 hours/week, weekends, evenings..." />
+        <span asp-validation-for="Availability" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Application</button>
+
+    <a asp-action="Details" asp-route-id="@Model.ProjectId" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
