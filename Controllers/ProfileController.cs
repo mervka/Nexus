@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nexus.Models;
 using Nexus.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Nexus.Data;
 
 namespace Nexus.Controllers;
 
@@ -10,12 +12,13 @@ namespace Nexus.Controllers;
 public class ProfileController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ApplicationDbContext _context;
 
-    public ProfileController(UserManager<ApplicationUser> userManager)
+    public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
     {
         _userManager = userManager;
+        _context = context;
     }
-
     public async Task<IActionResult> Index()
     {
         var currentUser = await _userManager.GetUserAsync(User);
@@ -35,14 +38,43 @@ public class ProfileController : Controller
             return NotFound();
         }
 
-        var user = await _userManager.FindByIdAsync(id);
+        var currentUser = await _userManager.GetUserAsync(User);
 
-        if (user == null)
+        if (currentUser == null)
+        {
+            return Unauthorized();
+        }
+
+        var profileUser = await _userManager.FindByIdAsync(id);
+
+        if (profileUser == null)
         {
             return NotFound();
         }
 
-        return View(user);
+        if (currentUser.Id == profileUser.Id)
+        {
+            return View(profileUser);
+        }
+
+        var sharedProjectExists = await _context.Projects
+            .AnyAsync(project =>
+                project.FounderId == currentUser.Id &&
+                project.Members.Any(member => member.UserId == profileUser.Id)
+                ||
+                project.FounderId == profileUser.Id &&
+                project.Members.Any(member => member.UserId == currentUser.Id)
+                ||
+                project.Members.Any(member => member.UserId == currentUser.Id) &&
+                project.Members.Any(member => member.UserId == profileUser.Id)
+            );
+
+        if (!sharedProjectExists)
+        {
+            return Forbid();
+        }
+
+        return View(profileUser);
     }
 
     public async Task<IActionResult> Edit()
