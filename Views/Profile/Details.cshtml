@@ -15,10 +15,19 @@
 
 <div class="card mt-4">
     <div class="card-body">
+        @if (!string.IsNullOrWhiteSpace(Model.ProfileImagePath))
+        {
+            <div class="mb-3">
+                <img src="@Model.ProfileImagePath"
+                     alt="Profile photo"
+                     style="width: 140px; height: 140px; object-fit: cover; border-radius: 50%;" />
+            </div>
+        }
+        
         @if (!string.IsNullOrWhiteSpace(Model.Bio))
         {
             <p>@Model.Bio</p>
-            <hr />
+            <hr/>
         }
 
         <p><strong>Email:</strong> @Model.Email</p>
