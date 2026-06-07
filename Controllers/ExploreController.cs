@@ -119,6 +119,16 @@ public class ExploreController : Controller
         {
             return NotFound();
         }
+        
+        if (string.IsNullOrWhiteSpace(currentUser.FullName) ||
+            string.IsNullOrWhiteSpace(currentUser.Bio) ||
+            string.IsNullOrWhiteSpace(currentUser.Skills) ||
+            string.IsNullOrWhiteSpace(currentUser.ExperienceLevel) ||
+            string.IsNullOrWhiteSpace(currentUser.Email))
+        {
+            TempData["ErrorMessage"] = "Please complete your profile before applying to projects.";
+            return RedirectToAction("Index", "Profile");
+        }
 
         if (project.FounderId == currentUser.Id)
         {
@@ -176,6 +186,16 @@ public class ExploreController : Controller
         if (project == null)
         {
             return NotFound();
+        }
+        
+        if (string.IsNullOrWhiteSpace(currentUser.FullName) ||
+            string.IsNullOrWhiteSpace(currentUser.Bio) ||
+            string.IsNullOrWhiteSpace(currentUser.Skills) ||
+            string.IsNullOrWhiteSpace(currentUser.ExperienceLevel) ||
+            string.IsNullOrWhiteSpace(currentUser.Email))
+        {
+            TempData["ErrorMessage"] = "Please complete your profile before applying to projects.";
+            return RedirectToAction("Index", "Profile");
         }
 
         if (project.FounderId == currentUser.Id)

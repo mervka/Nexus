@@ -6,6 +6,23 @@
 
 <h1>My Profile</h1>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning mt-3">
+        @TempData["ErrorMessage"]
+    </div>
+}
+else if (string.IsNullOrWhiteSpace(Model.FullName) ||
+         string.IsNullOrWhiteSpace(Model.Bio) ||
+         string.IsNullOrWhiteSpace(Model.Skills) ||
+         string.IsNullOrWhiteSpace(Model.ExperienceLevel) ||
+         string.IsNullOrWhiteSpace(Model.Email))
+{
+    <div class="alert alert-warning mt-3">
+        Please complete your profile before applying to projects. Founders use your profile information to evaluate your applications.
+    </div>
+}
+
 <div class="card mt-4">
     <div class="card-body">
         <h3>
@@ -21,12 +38,26 @@
         {
             <p>@Model.Bio</p>
         }
+        else
+        {
+            <p class="text-muted">Bio not provided yet.</p>
+        }
 
         <hr />
 
-        <p><strong>Email:</strong> @Model.Email</p>
-        <p><strong>Skills:</strong> @Model.Skills</p>
-        <p><strong>Experience Level:</strong> @Model.ExperienceLevel</p>
+        <p>
+            <strong>Email:</strong>
+            @(string.IsNullOrWhiteSpace(Model.Email) ? "Not provided yet" : Model.Email)
+        </p>
+        <p>
+            <strong>Skills:</strong>
+            @(string.IsNullOrWhiteSpace(Model.Skills) ? "Not provided yet" : Model.Skills)
+        </p>
+
+        <p>
+            <strong>Experience Level:</strong>
+            @(string.IsNullOrWhiteSpace(Model.ExperienceLevel) ? "Not provided yet" : Model.ExperienceLevel)
+        </p>
         <p><strong>Open to Collaboration:</strong> @(Model.IsOpenToCollaboration ? "Yes" : "No")</p>
 
         @if (!string.IsNullOrWhiteSpace(Model.PortfolioUrl))
