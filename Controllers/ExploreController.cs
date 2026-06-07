@@ -50,15 +50,53 @@ public class ExploreController : Controller
         return View(projects);
     }
 
-    public async Task<IActionResult> Details(int id)     
+    public async Task<IActionResult> Details(int id)
     {
         var project = await _context.Projects
             .Include(p => p.Founder)
-            .FirstOrDefaultAsync(p => p.Id == id && p.IsActive); 
+            .FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
 
         if (project == null)
         {
             return NotFound();
+        }
+
+        var currentUser = await _userManager.GetUserAsync(User);
+
+        ViewBag.CanApply = false;
+        ViewBag.ApplicationInfo = string.Empty;
+
+        if (currentUser == null)
+        {
+            ViewBag.ApplicationInfo = "Please login to apply to this project.";
+        }
+        else if (project.FounderId == currentUser.Id)
+        {
+            ViewBag.ApplicationInfo = "You are the founder of this project.";
+        }
+        else
+        {
+            var alreadyMember = await _context.ProjectMembers
+                .AnyAsync(pm => pm.ProjectId == project.Id && pm.UserId == currentUser.Id);
+
+            if (alreadyMember)
+            {
+                ViewBag.ApplicationInfo = "You are already a member of this project.";
+            }
+            else
+            {
+                var existingApplication = await _context.ProjectApplications
+                    .FirstOrDefaultAsync(pa => pa.ProjectId == project.Id && pa.ApplicantId == currentUser.Id);
+
+                if (existingApplication != null)
+                {
+                    ViewBag.ApplicationInfo = $"Application status: {existingApplication.Status}";
+                }
+                else
+                {
+                    ViewBag.CanApply = true;
+                }
+            }
         }
 
         return View(project);
