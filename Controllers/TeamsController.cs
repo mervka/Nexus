@@ -72,7 +72,8 @@ public class TeamsController : Controller
                     ProfessionalTitle = project.Founder.ProfessionalTitle,
                     Skills = project.Founder.Skills,
                     IsOpenToCollaboration = project.Founder.IsOpenToCollaboration,
-                    JoinedAt = project.CreatedAt
+                    JoinedAt = project.CreatedAt,
+                    ProfileImagePath = project.Founder.ProfileImagePath
                 }
             };
 
@@ -85,7 +86,8 @@ public class TeamsController : Controller
                 ProfessionalTitle = member.User.ProfessionalTitle,
                 Skills = member.User.Skills,
                 IsOpenToCollaboration = member.User.IsOpenToCollaboration,
-                JoinedAt = member.JoinedAt
+                JoinedAt = member.JoinedAt,
+                ProfileImagePath = member.User.ProfileImagePath
             }));
 
             return new TeamsIndexProjectViewModel

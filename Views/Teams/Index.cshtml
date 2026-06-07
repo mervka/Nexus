@@ -40,6 +40,16 @@ else
                         {
                             <div class="col-md-6 mb-3">
                                 <div class="border rounded p-3 h-100">
+                                    
+                                    @if (!string.IsNullOrWhiteSpace(member.ProfileImagePath))
+                                    {
+                                        <div class="mb-3">
+                                            <img src="@member.ProfileImagePath"
+                                                 alt="Profile photo"
+                                                 style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%;" />
+                                        </div>
+                                    }
+                                    
                                     <h5>
                                         @(string.IsNullOrWhiteSpace(member.FullName) ? "Profile not completed" : member.FullName)
                                     </h5>

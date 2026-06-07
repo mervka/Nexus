@@ -16,4 +16,6 @@ public class TeamMemberViewModel
     public bool IsOpenToCollaboration { get; set; }
 
     public DateTime JoinedAt { get; set; }
+    
+    public string? ProfileImagePath { get; set; }
 }
