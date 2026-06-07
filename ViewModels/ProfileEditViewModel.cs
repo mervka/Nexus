@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Nexus.ViewModels;
 
@@ -34,4 +35,9 @@ public class ProfileEditViewModel
 
     [Display(Name = "Open to Collaboration")]
     public bool IsOpenToCollaboration { get; set; }
+    
+    public string? ExistingProfileImagePath { get; set; }
+
+    [Display(Name = "Profile Photo")]
+    public IFormFile? ProfileImage { get; set; }
 }
