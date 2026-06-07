@@ -6,6 +6,13 @@
 
 <h1>Projects</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <p class="text-muted">
     These are the projects you created or joined as an accepted team member.
 </p>

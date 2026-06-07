@@ -6,6 +6,13 @@
 
 <h1>Applications</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <p class="text-muted">
     Applications for: <strong>@Model.ProjectTitle</strong>
 </p>

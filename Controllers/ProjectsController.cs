@@ -236,6 +236,8 @@ public class ProjectsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["SuccessMessage"] = "Project updated successfully.";
+
         return RedirectToAction(nameof(Details), new { id = project.Id });
     }
     
@@ -291,6 +293,8 @@ public class ProjectsController : Controller
 
         _context.Projects.Remove(project);
         await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Project deleted successfully.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -396,6 +400,8 @@ public class ProjectsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["SuccessMessage"] = "Application accepted successfully.";
+
         return RedirectToAction(nameof(Applications), new { id = application.ProjectId });
     }
 
@@ -432,6 +438,8 @@ public class ProjectsController : Controller
         application.Status = "Rejected";
 
         await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Application rejected successfully.";
 
         return RedirectToAction(nameof(Applications), new { id = application.ProjectId });
     }
