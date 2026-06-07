@@ -13,11 +13,16 @@ public class ProfileController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ApplicationDbContext _context;
+    private readonly IWebHostEnvironment _environment;
 
-    public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+    public ProfileController(
+        UserManager<ApplicationUser> userManager,
+        ApplicationDbContext context,
+        IWebHostEnvironment environment)
     {
         _userManager = userManager;
         _context = context;
+        _environment = environment;
     }
     public async Task<IActionResult> Index()
     {
@@ -96,7 +101,8 @@ public class ProfileController : Controller
             PortfolioUrl = currentUser.PortfolioUrl,
             GitHubUrl = currentUser.GitHubUrl,
             LinkedInUrl = currentUser.LinkedInUrl,
-            IsOpenToCollaboration = currentUser.IsOpenToCollaboration
+            IsOpenToCollaboration = currentUser.IsOpenToCollaboration,
+            ExistingProfileImagePath = currentUser.ProfileImagePath
         };
 
         return View(viewModel);
@@ -127,6 +133,22 @@ public class ProfileController : Controller
         currentUser.GitHubUrl = viewModel.GitHubUrl;
         currentUser.LinkedInUrl = viewModel.LinkedInUrl;
         currentUser.IsOpenToCollaboration = viewModel.IsOpenToCollaboration;
+        
+        if (viewModel.ProfileImage != null && viewModel.ProfileImage.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "profiles"); //wwwroot/uploads/profiles klasörünün fiziksel yolu
+
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileExtension = Path.GetExtension(viewModel.ProfileImage.FileName);
+            var fileName = $"{Guid.NewGuid()}{fileExtension}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            await using var stream = new FileStream(filePath, FileMode.Create);
+            await viewModel.ProfileImage.CopyToAsync(stream);
+
+            currentUser.ProfileImagePath = $"/uploads/profiles/{fileName}"; //Veritabanına dosyanın yolunu kaydet
+        }
 
         var result = await _userManager.UpdateAsync(currentUser);
 
