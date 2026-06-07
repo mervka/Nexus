@@ -29,3 +29,139 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.home-brand-section {
+  text-align: center;
+  padding: 45px 20px 65px;
+  background: #ffffff;
+}
+
+.home-brand-section h1 {
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.home-hero-section {
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #b9dcff 0%, #f8efe1 100%);
+}
+
+.home-hero-content h2 {
+  font-size: 64px;
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+
+.home-hero-content p {
+  max-width: 760px;
+  margin: 0 auto 42px;
+  font-size: 18px;
+  color: #111;
+}
+
+.home-hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.home-btn-dark {
+  background: #050505;
+  color: #ffffff;
+  border-radius: 0;
+  padding: 16px 42px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 1px solid #050505;
+}
+
+.home-btn-dark:hover {
+  background: #ffffff;
+  color: #050505;
+  border: 1px solid #050505;
+}
+
+.home-process-section {
+  padding: 85px 20px 70px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.home-process-section h2 {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 50px;
+}
+
+.home-process-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  text-align: left;
+}
+
+.home-process-card {
+  border: 1px solid #111;
+  border-radius: 16px;
+  background: #c7e2f8;
+  padding: 28px;
+  min-height: 210px;
+}
+
+.home-process-card span {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 35px;
+}
+
+.home-process-card h3 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.home-process-card p {
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0;
+}
+
+@media (max-width: 992px) {
+  .home-process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-hero-content h2 {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 576px) {
+  .home-process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-content h2 {
+    font-size: 38px;
+  }
+
+  .home-brand-section h1 {
+    font-size: 42px;
+  }
+}

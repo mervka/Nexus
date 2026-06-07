@@ -2,42 +2,62 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center py-5">
-    <h1 class="display-4 fw-bold">Creative ideas, collaborative teams</h1>
+<section class="home-brand-section">
+    <h1>NEXUS</h1>
+</section>
 
-    <p class="lead mt-3">
-        Share your project idea, discover skilled collaborators, and build your first team with clarity and confidence.
-    </p>
+<section class="home-hero-section">
+    <div class="home-hero-content">
+        <h2>
+            Creative ideas,<br />
+            collaborative teams
+        </h2>
 
-    <div class="mt-4">
-        <a class="btn btn-primary btn-lg me-2" asp-controller="Projects" asp-action="Create">
-            Share an Idea
-        </a>
+        <p>
+            Share your project idea, discover skilled collaborators, and build your first team with clarity and confidence.
+        </p>
 
-        <a class="btn btn-outline-primary btn-lg" asp-controller="Explore" asp-action="Index">
-            Explore Projects
-        </a>
+        <div class="home-hero-buttons">
+            <a asp-controller="Projects" asp-action="Create" class="btn home-btn-dark">
+                · Share an Idea
+            </a>
+
+            <a asp-controller="Explore" asp-action="Index" class="btn home-btn-dark">
+                · Explore Projects
+            </a>
+        </div>
     </div>
-</div>
+</section>
 
-<div class="row text-center mt-5">
-    <div class="col-md-3">
-        <h4>Define</h4>
-        <p>Describe your idea, target users, project stage, and required roles.</p>
-    </div>
+<section class="home-process-section">
+    <h2>
+        Everything you need to define,<br />
+        connect, and build your idea
+    </h2>
 
-    <div class="col-md-3">
-        <h4>Connect</h4>
-        <p>Discover people with the skills your project needs.</p>
-    </div>
+    <div class="home-process-grid">
+        <div class="home-process-card">
+            <span>001</span>
+            <h3>Define</h3>
+            <p>Describe your idea, target users, project stage, and required roles.</p>
+        </div>
 
-    <div class="col-md-3">
-        <h4>Shape</h4>
-        <p>Review applications and select suitable contributors.</p>
-    </div>
+        <div class="home-process-card">
+            <span>002</span>
+            <h3>Connect</h3>
+            <p>Discover people with the skills your project needs.</p>
+        </div>
 
-    <div class="col-md-3">
-        <h4>Implement</h4>
-        <p>Build your team and move your idea toward an MVP.</p>
+        <div class="home-process-card">
+            <span>003</span>
+            <h3>Shape</h3>
+            <p>Review applications and select suitable contributors.</p>
+        </div>
+
+        <div class="home-process-card">
+            <span>004</span>
+            <h3>Implement</h3>
+            <p>Build your team and move your idea toward an MVP.</p>
+        </div>
     </div>
-</div>
+</section>
