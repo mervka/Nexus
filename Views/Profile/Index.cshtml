@@ -8,7 +8,9 @@
 
 <div class="card mt-4">
     <div class="card-body">
-        <h3>@Model.FullName</h3>
+        <h3>
+            @(string.IsNullOrWhiteSpace(Model.FullName) ? "Profile not completed" : Model.FullName)
+        </h3>
 
         @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
         {

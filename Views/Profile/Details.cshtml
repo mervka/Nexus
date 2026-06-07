@@ -4,7 +4,9 @@
     ViewData["Title"] = "Profile Details";
 }
 
-<h1>@Model.FullName</h1>
+<h1>
+    @(string.IsNullOrWhiteSpace(Model.FullName) ? "Profile not completed" : Model.FullName)
+</h1>
 
 @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
 {
