@@ -25,6 +25,15 @@ else if (string.IsNullOrWhiteSpace(Model.FullName) ||
 
 <div class="card mt-4">
     <div class="card-body">
+        @if (!string.IsNullOrWhiteSpace(Model.ProfileImagePath))
+        {
+            <div class="mb-3">
+                <img src="@Model.ProfileImagePath"
+                     alt="Profile photo"
+                     style="width: 140px; height: 140px; object-fit: cover; border-radius: 50%;" />
+            </div>
+        }
+        
         <h3>
             @(string.IsNullOrWhiteSpace(Model.FullName) ? "Profile not completed" : Model.FullName)
         </h3>
@@ -43,7 +52,7 @@ else if (string.IsNullOrWhiteSpace(Model.FullName) ||
             <p class="text-muted">Bio not provided yet.</p>
         }
 
-        <hr />
+        <hr/>
 
         <p>
             <strong>Email:</strong>
