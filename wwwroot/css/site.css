@@ -165,3 +165,240 @@ body {
     font-size: 42px;
   }
 }
+/* Global layout polish */
+
+body {
+  background: #fbfaf7;
+  color: #1f2328;
+}
+
+.navbar {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e8e3da;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.navbar-brand {
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.navbar .nav-link {
+  font-weight: 600;
+  color: #111 !important;
+  margin-right: 10px;
+}
+
+.navbar .nav-link:hover {
+  color: #0d6efd !important;
+}
+
+.container {
+  max-width: 1180px;
+}
+
+main {
+  padding-top: 20px;
+}
+
+.card {
+  border: 1px solid #111;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.card-header {
+  border-bottom: 1px solid #d8d8d8;
+  background: #f8f6f1;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+.btn {
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #050505;
+  border-color: #050505;
+}
+
+.btn-primary:hover {
+  background: #ffffff;
+  color: #050505;
+  border-color: #050505;
+}
+
+.btn-outline-primary {
+  color: #050505;
+  border-color: #050505;
+}
+
+.btn-outline-primary:hover {
+  background: #050505;
+  color: #ffffff;
+  border-color: #050505;
+}
+
+.btn-secondary {
+  background: #666;
+  border-color: #666;
+}
+
+.alert {
+  border-radius: 12px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border-color: #d0d0d0;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.12);
+}
+
+/* Soft color polish */
+
+body {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfaf7 35%, #f8efe1 100%);
+  min-height: 100vh;
+}
+
+main h1 {
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+main h1::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 5px;
+  margin-top: 12px;
+  background: linear-gradient(90deg, #b9dcff, #f8efe1);
+  border-radius: 999px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  background: linear-gradient(90deg, #f8efe1 0%, #ffffff 100%);
+}
+
+.card-body {
+  background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
+  border-radius: 0 0 16px 16px;
+}
+
+.alert-info {
+  background: #dff3ff;
+  border-color: #b9dcff;
+  color: #06445e;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  border-color: #f8e1a1;
+}
+
+.alert-success {
+  background: #dff7ea;
+  border-color: #b7ebcb;
+}
+
+.btn-primary,
+.home-btn-dark {
+  background: #050505;
+  border-color: #050505;
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.home-btn-dark:hover {
+  background: #b9dcff;
+  color: #050505;
+  border-color: #050505;
+}
+
+.btn-secondary {
+  background: #f8efe1;
+  color: #111;
+  border-color: #111;
+}
+
+.btn-secondary:hover {
+  background: #111;
+  color: #ffffff;
+  border-color: #111;
+}
+
+.btn-danger {
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.btn-warning {
+  border-radius: 0;
+  font-weight: 600;
+  background: #f8efe1;
+  border-color: #111;
+  color: #111;
+}
+
+.btn-warning:hover {
+  background: #111;
+  border-color: #111;
+  color: #ffffff;
+}
+
+/* Project and team cards get a subtle blue accent */
+.card .card-body > h4:first-child,
+.card .card-body > h5:first-child,
+.card .card-body > h3:first-child {
+  color: #1f2328;
+}
+
+.card:hover {
+  border-color: #111;
+  box-shadow: 0 20px 55px rgba(185, 220, 255, 0.35);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Page title banner polish */
+
+main h1::after {
+  display: none;
+}
+
+main h1 {
+  display: block;
+  width: 100%;
+  padding: 22px 28px;
+  margin: 35px 0 22px;
+  border-radius: 18px;
+  background: linear-gradient(90deg, #b9dcff 0%, #f8efe1 70%, rgba(255, 255, 255, 0) 100%);
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+/* Do not affect the special Home page NEXUS title */
+.home-brand-section h1 {
+  width: auto;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.home-brand-section h1::after {
+  display: none;
+}
