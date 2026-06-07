@@ -19,6 +19,8 @@ public class ApplicationUser : IdentityUser
     public string? GitHubUrl { get; set; }
 
     public string? LinkedInUrl { get; set; }
+    
+    public string? ProfileImagePath { get; set; }
 
     public bool IsOpenToCollaboration { get; set; }
     
@@ -27,4 +29,5 @@ public class ApplicationUser : IdentityUser
     public ICollection<ProjectApplication> Applications { get; set; } = new List<ProjectApplication>();
 
     public ICollection<ProjectMember> ProjectMemberships { get; set; } = new List<ProjectMember>();
+    
 }

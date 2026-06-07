@@ -25,6 +25,8 @@ public class Project
     public bool IsActive { get; set; } = true;
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    
+    public string? ProjectImagePath { get; set; }
 
     public string FounderId { get; set; } = string.Empty;
 
