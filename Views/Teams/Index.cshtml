@@ -40,7 +40,9 @@ else
                         {
                             <div class="col-md-6 mb-3">
                                 <div class="border rounded p-3 h-100">
-                                    <h5>@member.FullName</h5>
+                                    <h5>
+                                        @(string.IsNullOrWhiteSpace(member.FullName) ? "Profile not completed" : member.FullName)
+                                    </h5>
 
                                     @if (!string.IsNullOrWhiteSpace(member.ProfessionalTitle))
                                     {
