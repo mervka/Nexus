@@ -84,7 +84,8 @@ public class ExploreController : Controller
 
         if (project.FounderId == currentUser.Id)
         {
-            return BadRequest("You cannot apply to your own project.");
+            TempData["ErrorMessage"] = "You cannot apply to your own project.";
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         var alreadyApplied = await _context.ProjectApplications
@@ -92,7 +93,8 @@ public class ExploreController : Controller
 
         if (alreadyApplied)
         {
-            return BadRequest("You have already applied to this project.");
+            TempData["ErrorMessage"] = "You have already applied to this project.";
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         var alreadyMember = await _context.ProjectMembers
@@ -100,7 +102,8 @@ public class ExploreController : Controller
 
         if (alreadyMember)
         {
-            return BadRequest("You are already a member of this project.");
+            TempData["ErrorMessage"] = "You are already a member of this project.";
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         var viewModel = new ProjectApplicationCreateViewModel
@@ -139,7 +142,8 @@ public class ExploreController : Controller
 
         if (project.FounderId == currentUser.Id)
         {
-            return BadRequest("You cannot apply to your own project.");
+            TempData["ErrorMessage"] = "You cannot apply to your own project.";
+            return RedirectToAction(nameof(Details), new { id = viewModel.ProjectId });
         }
 
         var alreadyApplied = await _context.ProjectApplications
@@ -147,7 +151,8 @@ public class ExploreController : Controller
 
         if (alreadyApplied)
         {
-            return BadRequest("You have already applied to this project.");
+            TempData["ErrorMessage"] = "You have already applied to this project.";
+            return RedirectToAction(nameof(Details), new { id = viewModel.ProjectId });
         }
 
         var alreadyMember = await _context.ProjectMembers
@@ -155,7 +160,8 @@ public class ExploreController : Controller
 
         if (alreadyMember)
         {
-            return BadRequest("You are already a member of this project.");
+            TempData["ErrorMessage"] = "You are already a member of this project.";
+            return RedirectToAction(nameof(Details), new { id = viewModel.ProjectId });
         }
 
         var application = new ProjectApplication
@@ -173,7 +179,8 @@ public class ExploreController : Controller
 
         _context.ProjectApplications.Add(application);
         await _context.SaveChangesAsync();
-
+        
+        TempData["SuccessMessage"] = "Your application has been submitted successfully.";
         return RedirectToAction(nameof(Details), new { id = viewModel.ProjectId });
     }
 }

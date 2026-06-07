@@ -6,6 +6,20 @@
 
 <h1>@Model.Title</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning mt-3">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <p class="text-muted">
     Explore this project idea and review whether you want to contribute.
 </p>
