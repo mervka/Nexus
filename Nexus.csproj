@@ -19,4 +19,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\profiles\" />
+    <Folder Include="wwwroot\uploads\projects\" />
+  </ItemGroup>
+
 </Project>
