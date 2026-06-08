@@ -28,11 +28,12 @@
     <div class="card-body">
         <h5 class="card-title">@Model.ShortDescription</h5>
 
-        <p class="mt-3">@Model.Description</p>
+        <div class="alert alert-info mt-3">
+            Detailed project information is visible after founder approval.
+        </div>
 
         <hr />
 
-        <p><strong>Problem Statement:</strong> @Model.ProblemStatement</p>
         <p><strong>Target Audience:</strong> @Model.TargetAudience</p>
         <p><strong>Category:</strong> @Model.Category</p>
         <p><strong>Stage:</strong> @Model.Stage</p>
@@ -41,8 +42,15 @@
 
         <hr />
 
-        <p><strong>Founder:</strong> @Model.Founder.FullName</p>
-        <p><strong>Founder Title:</strong> @Model.Founder.ProfessionalTitle</p>
+        <p>
+            <strong>Founder:</strong>
+            @(string.IsNullOrWhiteSpace(Model.Founder.FullName) ? "Profile not completed" : Model.Founder.FullName)
+        </p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Founder.ProfessionalTitle))
+        {
+            <p><strong>Founder Title:</strong> @Model.Founder.ProfessionalTitle</p>
+        }
 
         <div class="mt-4">
             <a asp-controller="Explore" asp-action="Apply" asp-route-id="@Model.Id" class="btn btn-primary">
