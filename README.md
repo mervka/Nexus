@@ -36,10 +36,9 @@ The project was developed as part of the **Programming for the Internet** course
 
 <img src="docs/screenshots/explore.png" alt="Nexus explore projects page">
 
-### Project Applications
+### Teams
 
-<img src="docs/screenshots/applications.png" alt="Nexus project applications page">
----
+<img src="docs/screenshots/teams.png" alt="Nexus teams page">
 
 ## Main Features
 
