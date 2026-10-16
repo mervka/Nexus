@@ -28,8 +28,17 @@ The project was developed as part of the **Programming for the Internet** course
 
 ## Preview
 
-Screenshots will be added here.
+### Home
 
+<img src="docs/screenshots/home.png" alt="Nexus home page">
+
+### Explore Projects
+
+<img src="docs/screenshots/explore.png" alt="Nexus explore projects page">
+
+### Project Applications
+
+<img src="docs/screenshots/applications.png" alt="Nexus project applications page">
 ---
 
 ## Main Features
