@@ -1,118 +1,244 @@
-# NEXUS
+<div align="center">
 
-NEXUS is an ASP.NET Core MVC web application developed as a course project for Programming for the Internet.
+# Nexus
 
-The application allows users to share project ideas, explore active projects, apply to projects, and form teams after founder approval.
+### A collaborative project platform built with ASP.NET Core MVC.
+
+Nexus connects people who have project ideas with developers, designers and other collaborators who want to join them.
+
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-MVC-512BD4)
+![C#](https://img.shields.io/badge/C%23-.NET-512BD4)
+![Entity Framework Core](https://img.shields.io/badge/Entity_Framework-Core-512BD4)
+![SQLite](https://img.shields.io/badge/Database-SQLite-003B57)
+![Bootstrap](https://img.shields.io/badge/UI-Bootstrap-7952B3)
+
+</div>
+
+---
+
+## About
+
+Nexus is an ASP.NET Core MVC web application designed around project collaboration.
+
+Users can create project ideas, discover active projects, apply for specific roles and build teams through a founder approval workflow.
+
+The project was developed as part of the **Programming for the Internet** course and later refined as a portfolio project with a focus on authentication, relational data modelling, authorization and complete user workflows.
+
+---
+
+## Preview
+
+Screenshots will be added here.
+
+---
 
 ## Main Features
 
-- User registration and login with ASP.NET Core Identity
-- Editable user profiles with bio, skills, experience level, links, and profile image upload
-- Profile completion requirement before applying to projects
-- Project creation, editing, details, and deletion
-- Explore page for active projects
-- Project application system
+- User registration and authentication with ASP.NET Core Identity
+- Editable user profiles
+- Profile photo upload
+- Skills, experience level and professional information
+- Project creation, editing and deletion
+- Public project discovery through the Explore page
+- Role-based project applications
+- Profile completion requirement before applying
 - Duplicate application prevention
-- Founder approval or rejection of applications
-- Accepted applicants become project members
-- Projects page showing the user's created and joined projects
-- Teams page showing founders and accepted members
-- Team member profile visibility after approval
-- Basic authorization and secure CRUD operations
+- Founder approval and rejection workflow
+- Automatic team membership after approval
+- Created and joined project tracking
+- Team member profiles
+- Authorization rules for protected project and profile data
+- Seeded demo users and projects
 
-## Technologies Used
+---
 
-- ASP.NET Core MVC
-- Razor Views
-- Entity Framework Core
-- ASP.NET Core Identity
-- SQLite
-- LINQ
-- Bootstrap
-- HTML / CSS
-- Git / GitHub
+## Core User Flow
 
-## How to Run the Project
+### Founder
 
-### 1. Clone the repository
+1. Register or log in
+2. Complete a profile
+3. Create a project
+4. Publish the project to Explore
+5. Review incoming applications
+6. Accept or reject applicants
+7. Manage the resulting project team
 
-```bash
-git clone https://github.com/mervka/Nexus.git
-cd Nexus
-```
+### Collaborator
 
-### 2. Restore dependencies
+1. Register or log in
+2. Complete a profile
+3. Explore available projects
+4. Open a project
+5. Apply for a specific role
+6. Wait for founder review
+7. Join the team after approval
 
-```bash
-dotnet restore
-```
+---
 
-### 3. Apply database migrations
+## Tech Stack
 
-```bash
-dotnet ef database update
-```
+| Area | Technology |
+| --- | --- |
+| Backend | ASP.NET Core MVC |
+| Language | C# |
+| UI | Razor Views, HTML, CSS, Bootstrap |
+| Authentication | ASP.NET Core Identity |
+| ORM | Entity Framework Core |
+| Database | SQLite |
+| Querying | LINQ |
+| Version Control | Git & GitHub |
 
-### 4. Run the application
+---
 
-```bash
-dotnet run
-```
+## Data Model
 
-After running the project, open the localhost URL shown in the terminal.
+The main domain relationships are built around four core entities:
+
+- `ApplicationUser`
+- `Project`
+- `ProjectApplication`
+- `ProjectMember`
+
+A project has one founder, can receive multiple applications and can contain multiple accepted members.
+
+Unique database constraints prevent the same user from:
+
+- applying to the same project more than once
+- becoming a duplicate member of the same project
+
+---
+
+## Authorization
+
+Nexus includes authorization rules beyond basic authentication.
+
+Examples include:
+
+- only project founders can edit or delete their projects
+- only founders can review applications
+- users cannot apply to their own projects
+- existing team members cannot apply again
+- project details are protected based on the user's relationship with the project
+- detailed user profiles are visible only when users share a project
+
+---
+
+## Profile Image Upload
+
+Profile images are stored under:
+
+    wwwroot/uploads/profiles
+
+Only the stored path is persisted in the database.
+
+Uploaded profile images are limited to:
+
+- JPG
+- JPEG
+- PNG
+- WEBP
+- Maximum file size: 5 MB
+
+User-uploaded files are excluded from Git version control.
+
+---
 
 ## Demo Accounts
 
-You can use the following demo accounts to test the application:
+The application automatically creates demo users for testing.
 
-### Founder Account
+### Founder
 
-```text
-Email: merve@gmail.com
-Password: Deneme12.
-```
+    Email: founder@nexus.com
+    Password: Founder123!
 
-### Applicant / Team Member Account
+### Collaborator
 
-```text
-Email: eren@gmail.com
-Password: Eren1525.
-```
+    Email: expert@nexus.com
+    Password: Expert123!
 
-## Basic Test Flow
+The database is also seeded with example projects so the Explore workflow can be tested immediately.
 
-1. Log in with the founder account.
-2. Create a new project from `Share an Idea`.
-3. Log out and log in with the applicant account.
-4. Go to `Explore Projects`.
-5. Apply to an active project.
-6. Log back in with the founder account.
-7. Open the project from the `Projects` page.
-8. View applications and accept or reject the applicant.
-9. Log in again with the applicant account.
-10. Check that the accepted project appears in the `Projects` and `Teams` pages.
+---
 
-## File Upload
+## Getting Started
 
-The project includes profile image upload.
+### 1. Clone the repository
 
-Uploaded profile images are stored under:
+    git clone https://github.com/mervka/Nexus.git
+    cd Nexus
 
-```text
-wwwroot/uploads/profiles
-```
+### 2. Restore dependencies
 
-The database stores only the image path in the `ProfileImagePath` field. The image file itself is not stored directly in the database.
+    dotnet restore
+
+### 3. Apply database migrations
+
+    dotnet ef database update
+
+### 4. Run the application
+
+    dotnet run
+
+Open the localhost address displayed in the terminal.
+
+---
+
+## Project Structure
+
+    Nexus/
+    ├── Areas/
+    │   └── Identity/
+    ├── Controllers/
+    ├── Data/
+    │   ├── Migrations/
+    │   └── Seed/
+    ├── Models/
+    ├── ViewModels/
+    ├── Views/
+    ├── wwwroot/
+    ├── Program.cs
+    └── Nexus.csproj
+
+---
+
+## What I Practiced
+
+This project gave me hands-on experience with:
+
+- ASP.NET Core MVC architecture
+- authentication and authorization
+- Entity Framework Core relationships
+- database migrations
+- relational data modelling
+- server-side validation
+- Razor Views
+- file uploads
+- user-specific workflows
+- CRUD operations
+- LINQ queries
+- application state and permission handling
+
+---
 
 ## Project Status
 
-This is an MVP version.
+Nexus is currently an **MVP**.
 
-The following features are not included in this version:
+Potential future improvements include:
 
-- Real-time chat
-- Notification system
-- Admin panel
-- Payment system
-- Advanced matching system
-- Task or milestone management
+- notification system
+- real-time messaging
+- project search and filtering
+- richer skill matching
+- project milestones and task management
+- production deployment
+
+---
+
+<div align="center">
+
+Built as a project collaboration platform with ASP.NET Core MVC.
+
+</div>
