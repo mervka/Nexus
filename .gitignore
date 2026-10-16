@@ -487,3 +487,7 @@ $RECYCLE.BIN/
 app.db
 app.db-shm
 app.db-wal
+
+# User-uploaded files
+wwwroot/uploads/profiles/*
+wwwroot/uploads/projects/*

@@ -50,5 +50,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(u => u.ProjectMemberships)
             .HasForeignKey(pm => pm.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Entity<ProjectApplication>()
+            .HasIndex(pa => new { pa.ProjectId, pa.ApplicantId })
+            .IsUnique();
+
+        builder.Entity<ProjectMember>()
+            .HasIndex(pm => new { pm.ProjectId, pm.UserId })
+            .IsUnique();
     }
 }

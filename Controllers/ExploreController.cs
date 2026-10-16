@@ -24,7 +24,7 @@ public class ExploreController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
 
         var projectsQuery = _context.Projects
-            .Where(p => p.IsActive);
+            .Where(p => p.IsActive);  
 
         if (currentUser != null)
         {
@@ -103,7 +103,7 @@ public class ExploreController : Controller
     }
     
     [Authorize]
-    public async Task<IActionResult> Apply(int id) //Formu açmak için 
+    public async Task<IActionResult> Apply(int id)  
     {
         var currentUser = await _userManager.GetUserAsync(User);
 
@@ -126,7 +126,7 @@ public class ExploreController : Controller
             string.IsNullOrWhiteSpace(currentUser.ExperienceLevel) ||
             string.IsNullOrWhiteSpace(currentUser.Email))
         {
-            TempData["ErrorMessage"] = "Please complete your profile before applying to projects.";
+            TempData["ErrorMessage"] = "Please complete your profile before applying to projects."; 
             return RedirectToAction("Index", "Profile");
         }
 
@@ -136,7 +136,7 @@ public class ExploreController : Controller
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        var alreadyApplied = await _context.ProjectApplications
+        var alreadyApplied = await _context.ProjectApplications 
             .AnyAsync(pa => pa.ProjectId == id && pa.ApplicantId == currentUser.Id);
 
         if (alreadyApplied)
@@ -166,7 +166,7 @@ public class ExploreController : Controller
     [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Apply(ProjectApplicationCreateViewModel viewModel) //Formu doldurmak için
+    public async Task<IActionResult> Apply(ProjectApplicationCreateViewModel viewModel) 
     {
         if (!ModelState.IsValid)
         {

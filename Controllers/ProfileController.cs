@@ -134,20 +134,37 @@ public class ProfileController : Controller
         currentUser.LinkedInUrl = viewModel.LinkedInUrl;
         currentUser.IsOpenToCollaboration = viewModel.IsOpenToCollaboration;
         
-        if (viewModel.ProfileImage != null && viewModel.ProfileImage.Length > 0)
+        if (viewModel.ProfileImage != null && viewModel.ProfileImage.Length > 0) 
         {
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "profiles"); //wwwroot/uploads/profiles klasörünün fiziksel yolu
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var fileExtension = Path.GetExtension(viewModel.ProfileImage.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                ModelState.AddModelError(nameof(viewModel.ProfileImage),
+                    "Only JPG, JPEG, PNG and WEBP files are allowed.");
+                return View(viewModel);
+            }
+
+            const long maxFileSize = 5 * 1024 * 1024;
+
+            if (viewModel.ProfileImage.Length > maxFileSize)
+            {
+                ModelState.AddModelError(nameof(viewModel.ProfileImage),
+                    "Profile image must be smaller than 5 MB.");
+                return View(viewModel);
+            }
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "profiles"); 
 
             Directory.CreateDirectory(uploadsFolder);
 
-            var fileExtension = Path.GetExtension(viewModel.ProfileImage.FileName);
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
             await using var stream = new FileStream(filePath, FileMode.Create);
             await viewModel.ProfileImage.CopyToAsync(stream);
 
-            currentUser.ProfileImagePath = $"/uploads/profiles/{fileName}"; //Veritabanına dosyanın yolunu kaydet
+            currentUser.ProfileImagePath = $"/uploads/profiles/{fileName}"; 
         }
 
         var result = await _userManager.UpdateAsync(currentUser);

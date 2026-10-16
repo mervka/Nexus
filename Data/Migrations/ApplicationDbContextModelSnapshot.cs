@@ -15,7 +15,7 @@ namespace Nexus.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "10.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -350,7 +350,8 @@ namespace Nexus.Data.Migrations
 
                     b.HasIndex("ApplicantId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectId", "ApplicantId")
+                        .IsUnique();
 
                     b.ToTable("ProjectApplications");
                 });
@@ -377,9 +378,10 @@ namespace Nexus.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("ProjectId", "UserId")
+                        .IsUnique();
 
                     b.ToTable("ProjectMembers");
                 });
